@@ -1,6 +1,6 @@
 import os
 
-from src import Config
+from src.config import Config
 from pymongo import MongoClient
 
 # Schema for user
@@ -20,11 +20,11 @@ class MongoDBError(Exception):
 def add_user_db(user_id, credentials):
     try:
         collection.update_one(
-            {
-                'user_id': user_id,
-                'credentials': credentials
-            },
-            upsert = True
+            { 'user_id': user_id},
+            [ 
+                { "$set": { 'credentials': credentials.to_json()} }
+            ],
+            upsert = True,
         )
 
     except Exception as e:

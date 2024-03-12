@@ -1,5 +1,8 @@
 Flask
+pytz
 pymongo
+python-dotenv
+urllib3==1.26.6
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
