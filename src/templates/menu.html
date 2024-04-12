@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 30px;
+        }
+        .menu-item {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+        .menu-item a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Event Management Portal!!!</h1>
+        <div class="menu-items">
+            <div class="menu-item">
+                <a href="/upcomingEvents">List upcoming events</a>
+            </div>
+            <div class="menu-item">
+                <a href="/rangeEvents">List range events</a>
+            </div>
+            <div class="menu-item">
+                <a href="/createEvent">Create an event</a>
+            </div>
+            <div class="menu-item">
+                <a href="/updateEvent">Update an event</a>
+            </div>
+            <div class="menu-item">
+                <a href="/deleteEvent">Delete an event</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
