@@ -21,6 +21,7 @@ def get_user_credentials(function):
             print(f"Error occured: {error}")
             return redirect(url_for("login"))
         return function(credentials=credentials, *args, **kwargs)
+    wrapper.__name__ = function.__name__
     return wrapper
 
 
@@ -32,8 +33,8 @@ def user_id_is_required(function):
                 user_id = session["user_id"]
             else:
                 return redirect(url_for("login"))
-
         return function(user_id=user_id,*args, **kwargs)
+    wrapper.__name__ = function.__name__
     return wrapper
 
 def validate_dates(function):
@@ -59,6 +60,6 @@ def validate_dates(function):
             return f"Exception occurred: {str(e)}"
 
         return function(dates=dates, *args, **kwargs)
-
+    wrapper.__name__ = function.__name__
     return wrapper
 
