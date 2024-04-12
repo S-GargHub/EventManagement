@@ -80,7 +80,6 @@
         {% for event in event_list %}
         <div class="event-info">
             <p><span>Event Summary:</span>{{ event.summary }} <button class="copy-btn" onclick="copyEventId('{{ event.id }}')">Copy ID</button></p>
-            
             <p><span>Event Time:</span> {{ event.time }}</p>
         </div>
         {% endfor %}

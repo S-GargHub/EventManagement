@@ -6,9 +6,9 @@ from src.googleauth import get_user_info
 from datetime import datetime, timezone, timedelta
 from google_auth_oauthlib.flow import InstalledAppFlow
 from src.database import add_user_db, get_user_credentials_db
-from flask import Flask, request, redirect, session, render_template, abort, url_for
+from flask import Flask, request, redirect, session, render_template, abort, url_for, jsonify
 from src.utils.utils import validate_dates, user_id_is_required, get_user_credentials
-from src.calendar import get_events, create_event
+from src.calendar import get_events, create_event, delete_event, EventNotFoundException
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -112,7 +112,26 @@ def create_calendar_event(user_id, credentials):
     except Exception as error:
         print(f"Error occured: {error}")
         return redirect("/")
-
+    
+@app.route("/deleteEvent", methods=["GET", "POST"])
+@user_id_is_required
+@get_user_credentials
+def delete_calendar_event(user_id, credentials):
+    if request.method == "GET":
+        return render_template("deleteEvent.html")
+    else:
+        event_id = request.form['event-id']
+        try:
+            deleted = delete_event(credentials, event_id)
+            return jsonify({'message': 'Event deleted successfully', 'id':deleted['id'], 'time':deleted['time'], 'summary':deleted['summary']})
+            #return redirect("https://calendar.google.com/calendar/render")
+        except EventNotFoundException as error:
+            return jsonify({'error': (error.message)}), 500
+            return redirect("/")
+        except Exception as error:
+            print(f"Error occured: {error}")
+            return jsonify({'error': (error.message)}), 500
+            return redirect("/")
 
     
     
