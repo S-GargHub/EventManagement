@@ -4,6 +4,9 @@ from datetime import datetime, time, timezone
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+class EventNotFoundException(Exception):
+    def __init__(self, message):
+        self.message = message
 
 def get_events(credentials, start_date, end_date):
     try:
@@ -42,26 +45,37 @@ def get_events(credentials, start_date, end_date):
         print(f"An error occurred: {e}")
 
     return events
+    
+def delete_event(credentials, event_id):
+    try:
+        # Delete the event
+        calendar_service = build('calendar', 'v3', credentials=credentials)
 
-# def delete_events(credentials):
-#     try:
-#         # Delete the event
-#         calendar_service = build('calendar', 'v3', credentials=credentials)
-#         calendar_service.events().delete(calendarId="primary", eventId=EVENT_ID).execute()
-#         print(f'Event with ID {EVENT_ID} has been deleted.')
-#     except Exception as e:
-#         print(f'An error occurred: {e}')
+        # Retrieve the event details
+        event = calendar_service.events().get(calendarId='primary', eventId=event_id).execute()
+        # Delete the event
+        calendar_service.events().delete(calendarId='primary', eventId=event_id).execute()
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        start_time = datetime.fromisoformat(start)
+        event_time = start_time.strftime('%Y-%m-%d %H:%M')
+        event_info = {
+            'id': event['id'],
+            'summary': event['summary'],
+            'time': event_time
+        }
+        return event_info
+    except HttpError as e:
+        if e.status_code == 404:
+            raise EventNotFoundException(f"Event with ID '{event_id}' not found in the calendar.")
+        elif e.status_code == 410:
+            raise EventNotFoundException(f"Event with ID '{event_id}' has already been deleted.")
+        else:
+            raise Exception(f"Error deleting event: {e}")
+    except Exception as e:
+        raise Exception(f"Error deleting event: {e}")
 
 
 def create_event(credentials, summary, start_date, end_date):
-    """
-    Creates a new calendar event.
-
-    Args:
-        summary (str): The title of the event.
-        start_date (datetime): The start date and time of the event.
-        end_date (datetime): The end date and time of the event.
-    """
     # Create a Google Calendar API client
     calendar_service = build('calendar', 'v3', credentials=credentials)
     event = {
