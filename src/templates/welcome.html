@@ -1,12 +1,75 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Welcome to our Event Management Portal </title>
-    </head>
-    <body>
-        <h1> Welcome to our Event Management Portal!! </h1>
-        <p>
-            <a href="/login"><button> Login </button></a>
-        </p>
-    </body>
+<head>
+    <title>Event Management Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .welcome-section,
+        .login-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex: 1;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4CAF50;
+        }
+        .google-btn {
+            background-color: #4285F4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .google-btn:hover {
+            background-color: #3367D6;
+        }
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-section">
+            <h1>Welcome to Event Management Portal!!</h1>
+            <a href="/login">Sign in with Google</a>
+        </div>
+    </div>
+</body>
 </html>

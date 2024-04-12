@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Check calender events </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Check Calendar Events</h1>
+        <form method="post">
+            <label for="start_date">Start date:</label>
+            <input type="date" id="start_date" name="start_date" required><br>
+            <label for="end_date">End date:</label>
+            <input type="date" id="end_date" name="end_date" required><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
