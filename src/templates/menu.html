@@ -1,39 +1,52 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
-    <title>Menu Webpage</title>
+    <title>Event Management Portal</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://fpsocial.com/wp-content/uploads/2016/11/Background-website-FP-Orignal.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for the desired fade effect */
         }
         .container {
+            width: 100%;
             max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
             color: #333;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         .menu-items {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: 30px;
+            grid-gap: 20px;
         }
         .menu-item {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
             transition: transform 0.3s ease;
         }
         .menu-item:hover {
             transform: translateY(-5px);
+            background-color: #e9e9e9;
         }
         .menu-item a {
             display: block;
@@ -46,22 +59,141 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Event Management Portal!!!</h1>
+        <h1>Welcome to the Event Management Portal</h1>
         <div class="menu-items">
             <div class="menu-item">
-                <a href="/upcomingEvents">List upcoming events</a>
+                <a href="/upcomingEvents">List Upcoming Events</a>
             </div>
             <div class="menu-item">
-                <a href="/rangeEvents">List range events</a>
+                <a href="/rangeEvents">List Range Events</a>
             </div>
             <div class="menu-item">
-                <a href="/createEvent">Create an event</a>
+                <a href="/createEvent">Create an Event</a>
             </div>
             <div class="menu-item">
-                <a href="/updateEvent">Update an event</a>
+                <a href="/updateEvent">Update an Event</a>
             </div>
             <div class="menu-item">
-                <a href="/deleteEvent">Delete an event</a>
+                <a href="/deleteEvent">Delete an Event</a>
+            </div>
+            <div class="menu-item">
+                <a href="/awsFeatures">AWS Features</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Management Portal</title>
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://fpsocial.com/wp-content/uploads/2016/11/Background-website-FP-Orignal.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for the desired fade effect */
+            position: relative; /* Add this to make sure the banner stays on top */
+        }
+
+        .banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .banner-text {
+            display: inline-block;
+            animation: marquee 10s linear infinite;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+        }
+
+        .menu-item {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            background-color: #e9e9e9;
+        }
+
+        .menu-item a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <span class="banner-text">We are hiring - 'Front End Developers'!</span>
+    </div>
+    <div class="container">
+        <h1>Welcome to the Event Management Portal</h1>
+        <div class="menu-items">
+            <div class="menu-item">
+                <a href="/upcomingEvents">List Upcoming Events</a>
+            </div>
+            <div class="menu-item">
+                <a href="/rangeEvents">List Range Events</a>
+            </div>
+            <div class="menu-item">
+                <a href="/createEvent">Create an Event</a>
+            </div>
+            <div class="menu-item">
+                <a href="/updateEvent">Update an Event</a>
+            </div>
+            <div class="menu-item">
+                <a href="/deleteEvent">Delete an Event</a>
+            </div>
+            <div class="menu-item">
+                <a href="/awsFeatures">AWS Features</a>
             </div>
         </div>
     </div>

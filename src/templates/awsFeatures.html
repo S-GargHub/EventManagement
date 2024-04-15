@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu Webpage</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://fpsocial.com/wp-content/uploads/2016/11/Background-website-FP-Orignal.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for the desired fade effect */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 30px;
+        }
+        .menu-item {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+        .menu-item a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Event Management Portal!!!</h1>
+        <div class="menu-items">
+            <div class="menu-item">
+                <a href="/awsFeatures">F1</a>
+            </div>
+            <div class="menu-item">
+                <a href="/awsFeatures">F2</a>
+            </div>
+            <div class="menu-item">
+                <a href="/awsFeatures">F3</a>
+            </div>
+            <div class="menu-item">
+                <a href="/awsFeatures">F4</a>
+            </div>
+            <div class="menu-item">
+                <a href="/awsFeatures">F5</a>
+            </div>
+            <div class="menu-item">
+                <a href="/awsFeatures">F5</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
