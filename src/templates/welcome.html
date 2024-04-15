@@ -4,31 +4,33 @@
     <title>Event Management Portal</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-        }
+            min-height: 100vh;
+            background-image: url('https://fpsocial.com/wp-content/uploads/2016/11/Background-website-FP-Orignal.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for the desired fade effect */
+       }
         .container {
-            display: flex;
-            margin: 0;
-            padding: 0;
-            justify-content: center;
-            align-items: center;
             width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .welcome-section,
-        .login-section {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .welcome-section {
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
-            flex: 1;
             margin: 20px;
         }
         h1 {
@@ -68,7 +70,7 @@
     <div class="container">
         <div class="welcome-section">
             <h1>Welcome to Event Management Portal!!</h1>
-            <a href="/login">Sign in with Google</a>
+            <a href="/login" class="google-btn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">Sign in with Google</a>
         </div>
     </div>
 </body>

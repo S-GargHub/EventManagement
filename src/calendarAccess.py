@@ -75,23 +75,25 @@ def delete_event(credentials, event_id):
         raise Exception(f"Error deleting event: {e}")
 
 
-def create_event(credentials, summary, start_date, end_date):
+def create_event(credentials, summary, start_date, end_date, participants):
     # Create a Google Calendar API client
     calendar_service = build('calendar', 'v3', credentials=credentials)
     event = {
         'summary': summary,
         'start': {
             'dateTime': start_date.isoformat(),
-            'timeZone': "UTC",
+            'timeZone': 'America/Los_Angeles',  # Pacific Time Zone
         },
         'end': {
             'dateTime': end_date.isoformat(),
-            'timeZone': "UTC",
+            'timeZone': 'America/Los_Angeles',  # Pacific Time Zone
         },
+        'attendees': [{'email': participant} for participant in participants],
     }
 
     try:
-        event = calendar_service.events().insert(calendarId="primary", body=event).execute()
+        event = calendar_service.events().insert(calendarId="primary", body=event, sendUpdates='all').execute()
     except Exception as e:
         print(f'An error occurred: {e}')
     return event
+
