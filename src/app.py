@@ -12,6 +12,7 @@ from src.database import add_user_db
 from src.googleauth import get_user_info
 from src.utils.utils import validate_dates, user_id_is_required, get_user_credentials
 from src.calendarAPI import get_events, create_event, delete_event, EventNotFoundException
+from src.awsBackend import put_event_metadata_dynamodb, delete_event_dynamodb
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -127,8 +128,14 @@ def create_calendar_event(user_id, credentials):
     summary = request.form['event-summary']
     start_date = datetime.fromisoformat(request.form['start-date'])
     end_date = datetime.fromisoformat(request.form['end-date'])
+    participants = request.form.getlist('participants[]')  # Get the list of participants
+    # print(participants)
     try:
-        event = create_event(credentials, summary, start_date, end_date)
+        event = create_event(credentials, summary, start_date, end_date, participants)
+        
+        # Insert event metadata into DynamoDB
+        put_event_metadata_dynamodb(event, summary, start_date, end_date) ## add participant later
+
         return render_template('eventDetails.html', start_date=start_date, end_date=end_date, summary=summary, event_link=event.get("htmlLink"))
     except Exception as error:
         print(f"Error occured: {error}")
@@ -144,6 +151,10 @@ def delete_calendar_event(user_id, credentials):
         event_id = request.form['event-id']
         try:
             deleted = delete_event(credentials, event_id)
+
+            delete_event_dynamodb(event_id)
+            ## also write the lambda function to see if the item was deleted
+
             return jsonify({'message': 'Event deleted successfully', 'id':deleted['id'], 'time':deleted['time'], 'summary':deleted['summary']})
             #return redirect("https://calendar.google.com/calendar/render")
         except EventNotFoundException as error:
@@ -157,4 +168,7 @@ def delete_calendar_event(user_id, credentials):
     
     
 
-
+###---------------- AWS Stuff ----------------------------------------------------------------
+@app.route("/awsFeatures", methods=["GET"])
+def get_AWS_menu():
+    return render_template("awsFeatures.html")
