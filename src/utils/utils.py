@@ -4,6 +4,7 @@ from flask import redirect, request, session, url_for
 from src.googleauth import refresh_token
 from src.database import add_user_db, get_user_credentials_db
 
+
 def get_user_credentials(function):
     def wrapper(*args, **kwargs):
         user_id = kwargs["user_id"]

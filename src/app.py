@@ -1,16 +1,18 @@
 import os
-
+import json
+import boto3
 
 from src.config import Config
-from src.googleauth import get_user_info
+from google.oauth2.credentials import Credentials
 from datetime import datetime, timezone, timedelta
 from google_auth_oauthlib.flow import InstalledAppFlow
-from src.database import add_user_db, get_user_credentials_db
-from flask import Flask, request, redirect, session, render_template, abort, url_for, jsonify, flash
-from src.utils.utils import validate_dates, user_id_is_required, get_user_credentials
-from src.calendarAccess import get_events, create_event, delete_event, EventNotFoundException
+from flask import Flask, request, redirect, session, render_template, abort, jsonify
 
-from src.awsBackend import put_event_metadata_dynamodb, delete_event_dynamodb, find_event_s3, upload_file_S3
+from src.database import add_user_db
+from src.googleauth import get_user_info
+from src.utils.utils import validate_dates, user_id_is_required, get_user_credentials
+from src.calendarAPI import get_events, create_event, delete_event, EventNotFoundException
+from src.awsBackend import put_event_metadata_dynamodb, delete_event_dynamodb
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -77,7 +79,7 @@ def get_range():
 def post_events(user_id, dates, credentials):
     start_date, end_date = dates
     try:
-        event_list = get_events(credentials, start_date, end_date)
+        event_list = get_events(credentials.to_json(), start_date, end_date)
         return render_template('display.html', start_date=start_date, end_date=end_date, event_list=event_list)
     except Exception as error:
         print(f"Error occured: {error}")
@@ -90,7 +92,25 @@ def get_calender_events(user_id, credentials):
     try:
         start_date = datetime.now()
         end_date = start_date + timedelta(days=30)
-        event_list = get_events(credentials, start_date, end_date)
+         # Invoke the Lambda function
+        lambda_client = boto3.client('lambda')
+        payload = {
+            'user_id': user_id,
+            'credentials': credentials.to_json()
+        }
+
+
+        response = lambda_client.invoke(
+            FunctionName='myLambda',
+            InvocationType='RequestResponse',
+            Payload=json.dumps(payload)
+        )
+
+        if response['StatusCode'] == 200:
+            event_list = json.loads(response['Payload'].read().decode())
+        else:
+            print(f"FunctionError: {response['FunctionError']}")
+
         return render_template('display.html', start_date=start_date, end_date=end_date, event_list=event_list)
     except Exception as error:
         print(f"Error occured: {error}")
