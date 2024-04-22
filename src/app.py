@@ -6,11 +6,11 @@ from src.googleauth import get_user_info
 from datetime import datetime, timezone, timedelta
 from google_auth_oauthlib.flow import InstalledAppFlow
 from src.database import add_user_db, get_user_credentials_db
-from flask import Flask, request, redirect, session, render_template, abort, url_for, jsonify
+from flask import Flask, request, redirect, session, render_template, abort, url_for, jsonify, flash
 from src.utils.utils import validate_dates, user_id_is_required, get_user_credentials
 from src.calendarAccess import get_events, create_event, delete_event, EventNotFoundException
 
-from src.awsBackend import put_event_metadata_dynamodb, delete_event_dynamodb
+from src.awsBackend import put_event_metadata_dynamodb, delete_event_dynamodb, find_event_s3, upload_file_S3
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -148,7 +148,43 @@ def delete_calendar_event(user_id, credentials):
     
     
 
-###---------------- AWS Stuff ----------------------------------------------------------------
-@app.route("/awsFeatures", methods=["GET"])
-def get_AWS_menu():
-    return render_template("awsFeatures.html")
+###---------------- AWS Endpoints----------------------------------------------------------------
+@app.route("/homeworkSubmission", methods=["GET", "POST"])
+@user_id_is_required
+@get_user_credentials
+def get_homeworkSubmission(user_id, credentials):
+    if request.method == "GET":
+        return render_template("/homeworkSubmission.html")
+    else:
+        event_id = request.form['event-id']
+
+        if find_event_s3(event_id):
+            # Folder exists, redirect to uploadHomework.html
+            return redirect(url_for('uploadingHomework', event_id=event_id))
+        else:
+            # Folder doesn't exist, show an error prompt
+            return render_template("/homeworkSubmission.html", message="Invalid Event ID!")
+
+
+
+@app.route("/uploadHomework", methods=["GET", "POST"])
+@user_id_is_required
+@get_user_credentials
+def uploadingHomework(user_id, credentials):
+    if request.method == "GET":
+        event_id = request.args.get('event_id')
+        return render_template("/uploadHomework.html", event_id=event_id)
+    else:
+        event_id = request.form.get('event_id')
+        print("event_id:", event_id)
+        file = request.files.get('file')
+
+        # Upload the file to S3 in the event_id folder
+        try:
+            upload_file_S3(file, event_id)
+        except Exception as e:
+            print(f"Failed to upload file: {e}")
+            return render_template("/uploadHomework.html", message="Failed! Try again.")
+
+        return render_template("/uploadHomework.html", message="File Uploaded Successfully!")
+
