@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Calendar Event</title>
+    <title>Homework Submission Page</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -54,35 +54,18 @@
             background-color: #45a049;
         }
     </style>
+</head>
 <body>
     <div class="container">
-        <h1>Create Calendar Event</h1>
-        <form action="/createEvent" method="post">
-            <label for="event-summary">Event Summary:</label>
-            <input type="text" id="event-summary" name="event-summary" required>
-            <label for="start-date">Start Date:</label>
-            <input type="datetime-local" id="start-date" name="start-date" required>
-            <label for="end-date">End Date:</label>
-            <input type="datetime-local" id="end-date" name="end-date" required>
-            <label for="participants">Attendees <button type="button" id="add-participant" class="add-participant-btn">+</button></label>
-            <div id="participant-list">
-                <div class="participant">
-                    <input type="email" name="participants[]" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                </div>
-            </div>
-            <button type="submit">Create Event</button>
+        <h1>Submit Your Work</h1>
+        <form id="homework-Submission" action="/homeworkSubmission" method="post">
+            <label for="event-id">Event ID:</label>
+            <input type="text" id="event-id" name="event-id" required>
+            <button type="submit" id="search-button">Search</button>
         </form>
+        {% if message %}
+        <div id="message">{{ message }}</div>
+        {% endif %}
     </div>
-    <script>
-        document.getElementById('add-participant').addEventListener('click', () => {
-            const participantList = document.getElementById('participant-list');
-            const participant = document.createElement('div');
-            participant.className = 'participant';
-            participant.innerHTML = `
-                <input type="email" name="participants[]" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-            `;
-            participantList.appendChild(participant);
-        });
-    </script>
 </body>
 </html>
