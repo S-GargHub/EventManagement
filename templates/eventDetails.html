@@ -42,6 +42,19 @@
         a:hover {
             text-decoration: underline;
         }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -52,9 +65,21 @@
         <p>End Date: <span>{{ end_date }}</span></p>
         <p>Event Link: <a href="{{ event_link }}" target="_blank"><span>{{ event_link }}</span></a></p>
         <div class="button-container">
-            <a href="/logout"><button>Logout</button></a>
-            <a href="/menu"><button>Back to Main Menu</button></a>
+            <a href="/logout"><button id="logout-btn">Logout</button></a>
+            <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
         </div>
     </div>
+
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/logout';
+        });
+
+        document.getElementById('menu-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/menu';
+        });
+    </script>
 </body>
 </html>

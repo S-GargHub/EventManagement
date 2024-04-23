@@ -72,8 +72,8 @@
             </div>
             <button type="submit">Create Event</button>
             <div class="button-container">
-                <a href="/logout"><button>Logout</button></a>
-                <a href="/menu"><button>Back to Main Menu</button></a>
+                <a href="/logout"><button id="logout-btn">Logout</button></a>
+                <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
             </div>
         </form>
     </div>
@@ -86,6 +86,16 @@
                 <input type="email" name="participants[]" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
             `;
             participantList.appendChild(participant);
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/logout';
+        });
+
+        document.getElementById('menu-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/menu';
         });
     </script>
 </body>

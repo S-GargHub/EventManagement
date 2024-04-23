@@ -72,8 +72,8 @@
             </div>
         </div>
         <div class="button-container">
-            <a href="/logout"><button>Logout</button></a>
-            <a href="/menu"><button>Back to Main Menu</button></a>
+            <a href="/logout"><button id="logout-btn">Logout</button></a>
+            <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
         </div>
     </div>
 
@@ -105,6 +105,16 @@
                 document.getElementById('message').textContent = `Error: ${error}`;
                 document.getElementById('response-message').style.display = 'block';
             });
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/logout';
+        });
+
+        document.getElementById('menu-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/menu';
         });
     </script>
 </body>

@@ -66,6 +66,21 @@
         {% if message %}
         <div id="message">{{ message }}</div>
         {% endif %}
+        <div class="button-container">
+            <a href="/logout"><button id="logout-btn">Logout</button></a>
+            <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
+        </div>
     </div>
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/logout';
+        });
+
+        document.getElementById('menu-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/menu';
+        });
+    </script>
 </body>
 </html>

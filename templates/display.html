@@ -64,6 +64,9 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        button:hover {
+            background-color: #45a049;
+        }
         a {
             color: #4CAF50;
             text-decoration: none;
@@ -96,8 +99,8 @@
         </div>
         {% endfor %}
         <div class="button-container">
-            <a href="/logout"><button>Logout</button></a>
-            <a href="/menu"><button>Back to Main Menu</button></a>
+            <a href="/logout"><button id="logout-btn">Logout</button></a>
+            <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
         </div>
     </div>
 
@@ -106,7 +109,16 @@
             navigator.clipboard.writeText(eventId);
             alert(`Event ID "${eventId}" copied to clipboard!`);
         }
-        
+
+        document.getElementById('logout-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/logout';
+        });
+
+        document.getElementById('menu-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/menu';
+        });
     </script>
 </body>
 </html>

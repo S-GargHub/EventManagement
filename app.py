@@ -71,7 +71,7 @@ def get_range():
     return render_template("rangeEvents.html")
 
 @app.route("/rangeEvents", methods=["POST"])
-@user_id_is_required
+@user_id_is_required 
 @validate_dates
 @get_user_credentials
 def post_events(user_id, dates, credentials):
@@ -96,7 +96,6 @@ def get_calender_events(user_id, credentials):
             'user_id': user_id,
             'credentials': credentials.to_json()
         }
-
 
         response = lambda_client.invoke(
             FunctionName='myLambda',
