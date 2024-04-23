@@ -16,14 +16,10 @@ from src.awsBackend import put_event_metadata_dynamodb, delete_event_dynamodb
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-GOOGLE_CLIENT_CONFIG = Config.GOOGLE_CLIENT_JSON
-SCOPES = Config.GOOGLE_AUTH_SCOPE
-
-
 app = Flask(__name__)
 app.config.from_object(Config)
 
-flow = InstalledAppFlow.from_client_secrets_file(GOOGLE_CLIENT_CONFIG, SCOPES)
+flow = InstalledAppFlow.from_client_secrets_file(Config.GOOGLE_CLIENT_JSON, Config.GOOGLE_AUTH_SCOPE)
 flow.redirect_uri = Config.REDIRECT_URI
     
 @app.route("/")
