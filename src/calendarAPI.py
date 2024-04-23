@@ -1,10 +1,11 @@
-import pytz
 import json
-
 from datetime import datetime, time, timezone
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from google.auth.transport.requests import Request
+from google.auth.exceptions import RefreshError
 from google.oauth2.credentials import Credentials
+
 
 class EventNotFoundException(Exception):
     def __init__(self, message):
@@ -16,7 +17,7 @@ def get_events(credentials, start_date, end_date):
         credentials_data = json.loads(credentials)
         credentials = Credentials.from_authorized_user_info(credentials_data)
         
-        service = build("calendar", "v3", credentials=credentials)
+        service = build("calendar", "v3", credentials=credentials, cache_discovery=False)
         start = datetime.combine(start_date, time.min).replace(tzinfo=timezone.utc).isoformat() 
         end = datetime.combine(end_date, time.min).replace(tzinfo=timezone.utc).isoformat()
         
@@ -39,10 +40,13 @@ def get_events(credentials, start_date, end_date):
                 start = event['start'].get('dateTime', event['start'].get('date'))
                 start_time = datetime.fromisoformat(start)
                 event_time = start_time.strftime('%Y-%m-%d %H:%M')
+                attendees = event.get('attendees', [])
+                attendee_emails = [attendee['email'] for attendee in attendees]
                 event_info = {
                     'id': event['id'],
                     'summary': event['summary'],
-                    'time': event_time
+                    'time': event_time,
+                    'attendes': attendee_emails
                 }
                 events.append(event_info)
 
@@ -50,7 +54,7 @@ def get_events(credentials, start_date, end_date):
         print(f"An error occurred: {e}")
 
     return events
-    
+
 def delete_event(credentials, event_id):
     try:
         # Delete the event

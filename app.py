@@ -163,8 +163,6 @@ def delete_calendar_event(user_id, credentials):
             return jsonify({'error': (error.message)}), 500
             return redirect("/")
 
-    
-    
 
 ###---------------- AWS Endpoints----------------------------------------------------------------
 @app.route("/homeworkSubmission", methods=["GET", "POST"])
