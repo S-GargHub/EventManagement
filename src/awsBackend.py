@@ -23,3 +23,26 @@ def delete_event_dynamodb(event_id):
             'id': event_id
         }
     )
+
+
+# Check if an event folder exist in S3 bucket
+def find_event_s3(event_id):
+    s3 = boto3.client('s3')
+    s3_bucket_name = 'calender-app-bucket'
+
+    response = s3.list_objects_v2(Bucket=s3_bucket_name, Prefix=event_id+'/')
+    
+    if 'Contents' in response:
+        return True
+    return False
+
+
+# Upload file to S3 folder
+def upload_file_S3(file, event_id):
+    s3 = boto3.client('s3')
+    s3_bucket_name = 'calender-app-bucket'
+
+    try:
+        s3.upload_fileobj(file, s3_bucket_name , f'{event_id}/{file.filename}')
+    except Exception as e:
+        return e
