@@ -96,7 +96,6 @@ def create_event(credentials, summary, start_date, end_date, participants):
         'attendees': [{'email': participant} for participant in participants],
     }
     
-
     try:
         event = calendar_service.events().insert(calendarId="primary", body=event).execute()
     except Exception as e:
