@@ -1,8 +1,10 @@
 import pytz
+import json
 
 from datetime import datetime, time, timezone
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from google.oauth2.credentials import Credentials
 
 class EventNotFoundException(Exception):
     def __init__(self, message):
@@ -11,6 +13,9 @@ class EventNotFoundException(Exception):
 def get_events(credentials, start_date, end_date):
     try:
         # Call the Calendar API
+        credentials_data = json.loads(credentials)
+        credentials = Credentials.from_authorized_user_info(credentials_data)
+        
         service = build("calendar", "v3", credentials=credentials)
         start = datetime.combine(start_date, time.min).replace(tzinfo=timezone.utc).isoformat() 
         end = datetime.combine(end_date, time.min).replace(tzinfo=timezone.utc).isoformat()
@@ -82,18 +87,18 @@ def create_event(credentials, summary, start_date, end_date, participants):
         'summary': summary,
         'start': {
             'dateTime': start_date.isoformat(),
-            'timeZone': 'America/Los_Angeles',  # Pacific Time Zone
+            'timeZone': "UTC",
         },
         'end': {
             'dateTime': end_date.isoformat(),
-            'timeZone': 'America/Los_Angeles',  # Pacific Time Zone
+            'timeZone': "UTC",
         },
         'attendees': [{'email': participant} for participant in participants],
     }
+    
 
     try:
-        event = calendar_service.events().insert(calendarId="primary", body=event, sendUpdates='all').execute()
+        event = calendar_service.events().insert(calendarId="primary", body=event).execute()
     except Exception as e:
         print(f'An error occurred: {e}')
     return event
-
