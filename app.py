@@ -218,8 +218,6 @@ def dashboard(user_id, credentials):
         return render_template("/dashboard.html", event_id=event_id, s3_content=s3_content)
 
 
-
-
 if __name__ == "__main__":
     # Run the Flask application with host='0.0.0.0' to listen on all network interfaces
     app.run(host='0.0.0.0')

@@ -72,8 +72,3 @@ def get_s3_content(event_id):
     except Exception as e:
         print(f"Failed to fetch S3 content: {e}")
         return []
-
-# Example usage
-event_id = 'your_event_id_here'
-s3_content = get_s3_content(event_id)
-print(s3_content)
