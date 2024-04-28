@@ -1,17 +1,20 @@
 import boto3
 
 # Insert event metadata into DynamoDB
-def put_event_metadata_dynamodb(event, summary, start_date, end_date):
+def put_event_metadata_dynamodb(event, summary, start_date, end_date, participants):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('Calendar_Event_Metadata')
+    print(participants)
     table.put_item(
         Item={
             'summary': summary,
             'start_date': start_date.isoformat(),
             'end_date': end_date.isoformat(),
             'id': event['id'],
+            'participants': participants,
         }
     )
+
 
 
 # Delete the metadata from DynamoDB
