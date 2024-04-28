@@ -150,7 +150,6 @@ def delete_calendar_event(user_id, credentials):
             deleted = delete_event(credentials, event_id)
 
             delete_event_dynamodb(event_id)
-            ## also write the lambda function to see if the item was deleted
 
             return jsonify({'message': 'Event deleted successfully', 'id':deleted['id'], 'time':deleted['time'], 'summary':deleted['summary']})
             #return redirect("https://calendar.google.com/calendar/render")
@@ -163,7 +162,7 @@ def delete_calendar_event(user_id, credentials):
             return redirect("/")
 
 
-###---------------- AWS Endpoints----------------------------------------------------------------
+
 @app.route("/homeworkSubmission", methods=["GET", "POST"])
 @user_id_is_required
 @get_user_credentials

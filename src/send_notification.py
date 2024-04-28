@@ -21,7 +21,7 @@ def lambda_handler(event, context):
 def send_notifications(event_list):
     # Function to send notifications for events scheduled to happen in the next one hour
     sns = boto3.client('sns')
-    topic_arn = 'arn:aws:sns:us-west-2:590184108781:upcomingEvents'  # Replace with your actual SNS topic ARN
+    topic_arn = 'arn:aws:sns:us-west-2:590184108781:upcomingEvents' 
     
     for event in event_list:
         event_time = datetime.strptime(event['time'], '%Y-%m-%d %H:%M')
