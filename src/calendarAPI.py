@@ -106,3 +106,29 @@ def create_event(credentials, summary, start_date, end_date, participants):
     except Exception as e:
         print(f'An error occurred: {e}')
     return event
+
+
+def update_event(credentials, event_id, summary, start_date, end_date, participants):
+    try:
+        # Call the Calendar API        
+        service = build('calendar', 'v3', credentials=credentials)
+        
+        event = {
+            'summary': summary,
+            'start': {
+                'dateTime': start_date.isoformat(),
+                'timeZone': 'America/Los_Angeles',  # Pacific Time Zone
+            },
+            'end': {
+                'dateTime': end_date.isoformat(),
+                'timeZone': 'America/Los_Angeles',  # Pacific Time Zone
+            },
+            'attendees': [{'email': participant} for participant in participants],
+        }
+
+        updated_event = service.events().update(calendarId='primary', eventId=event_id, body=event, sendUpdates='all').execute()
+        return updated_event
+    except HttpError as e:
+        print(f"An error occurred: {e}")
+
+    return None

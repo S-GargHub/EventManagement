@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Homework Submission Page -Upload</title>
+    <title>Update Event</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -33,7 +33,7 @@
             margin-bottom: 10px;
             text-align: left;
         }
-        input, textarea {
+        input {
             padding: 8px 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -52,7 +52,7 @@
         }
         .button-container {
             text-align: center;
-            margin-top: 15px; /* Adjust as needed */
+            margin-top: 10px; /* Adjust as needed */
         }
         button:hover {
             background-color: #45a049;
@@ -61,37 +61,41 @@
 </head>
 <body>
     <div class="container">
-        <h1>Upload file</h1>
-        <form id="upload-homework" action="/uploadHomework" method="POST" enctype="multipart/form-data">
-            <label for="file">Select file:</label>
-            <input type="file" id="file" name="file" accept="image/*" required>
-            <input type="hidden" name="event_id" value="{{ event_id }}">
-            <button type="submit">Upload</button>
+        <h1>Update Event</h1>
+        <form action="/updateEvent" method="POST" enctype="multipart/form-data">
+            <label for="event-id">Event ID:</label>
+            <input type="text" id="event-id" name="event-id" required><br><br>
+            <label for="event-summary">Event Summary:</label>
+            <input type="text" id="event-summary" name="event-summary" required>
+            <label for="start-date">Start Date:</label>
+            <input type="datetime-local" id="start-date" name="start-date" required>
+            <label for="end-date">End Date:</label>
+            <input type="datetime-local" id="end-date" name="end-date" required>
+            <label for="participants">Attendees <button type="button" id="add-participant" class="add-participant-btn">+</button></label>
+            <div id="participant-list">
+                <div class="participant">
+                    <input type="email" name="participants[]" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                </div>
+            </div>
+            <button type="submit">Update Event</button>
         </form>
         {% if message %}
         <div id="message">{{ message }}</div>
-        <!-- <div id="event_id">{{ event_id }}</div> -->
+        {% endif %}
         <div class="button-container">
-            <a href="/dashboard"><button id="dashboard-btn">Dashboard</button></a>
             <a href="/logout"><button id="logout-btn">Logout</button></a>
             <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
         </div>
-        {% endif %}
     </div>
     <script>
-        document.getElementById('dashboard-btn').addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = '/dashboard';
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = '/logout';
-        });
-
-        document.getElementById('menu-btn').addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = '/menu';
+        document.getElementById('add-participant').addEventListener('click', () => {
+            const participantList = document.getElementById('participant-list');
+            const participant = document.createElement('div');
+            participant.className = 'participant';
+            participant.innerHTML = `
+                <input type="email" name="participants[]" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            `;
+            participantList.appendChild(participant);
         });
     </script>
 </body>
