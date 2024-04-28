@@ -205,14 +205,6 @@ def uploadingHomework(user_id, credentials):
         return render_template("/uploadHomework.html", event_id=event_id, message="File Uploaded Successfully!")
 
 
-@app.route("/dashboard", methods=["GET"])
-@user_id_is_required
-@get_user_credentials
-def dashboard(user_id, credentials):
-    event_id = session.get('event_id')
-    if not event_id:
-        return redirect("/menu")
-    if request.method == "GET":
-        # print("Dashboard: ", event_id)
-        s3_content = get_s3_content(event_id)
-        return render_template("/dashboard.html", event_id=event_id, s3_content=s3_content)
+if __name__ == "__main__":
+    # Run the Flask application with host='0.0.0.0' to listen on all network interfaces
+    app.run(host='0.0.0.0')

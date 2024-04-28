@@ -51,6 +51,6 @@ def get_user_credentials_db(user_id):
             credentials = google.oauth2.credentials.Credentials.from_authorized_user_info(credentials_info)
             return credentials
         else:
-            raise MongoDBError(f"User not found in the database")
+            raise MongoDBError(f"User with ID {user_id} not found in the database")
     except Exception as e:
         raise MongoDBError(f"Error while getting user credentials from MongoDB: {e}")
