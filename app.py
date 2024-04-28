@@ -181,7 +181,6 @@ def get_homeworkSubmission(user_id, credentials):
             return render_template("/homeworkSubmission.html", message="Invalid Event ID!")
 
 
-
 @app.route("/uploadHomework", methods=["GET", "POST"])
 @user_id_is_required
 @get_user_credentials
@@ -203,7 +202,6 @@ def uploadingHomework(user_id, credentials):
             return render_template("/uploadHomework.html", message="Failed! Try again.")
         
         return render_template("/uploadHomework.html", event_id=event_id, message="File Uploaded Successfully!")
-
 
 @app.route("/dashboard", methods=["GET"])
 @user_id_is_required
