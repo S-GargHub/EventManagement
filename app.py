@@ -13,7 +13,7 @@ from src.googleauth import get_user_info
 from src.utils.utils import validate_dates, user_id_is_required, get_user_credentials
 from src.calendarAPI import get_events, create_event, delete_event, EventNotFoundException
 
-from src.awsBackend import put_event_metadata_dynamodb, delete_event_dynamodb, find_event_s3, upload_file_S3
+from src.awsBackend import put_event_metadata_dynamodb, delete_event_dynamodb, find_event_s3, upload_file_S3, get_s3_content
 
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -188,10 +188,11 @@ def get_homeworkSubmission(user_id, credentials):
 def uploadingHomework(user_id, credentials):
     if request.method == "GET":
         event_id = request.args.get('event_id')
+        session['event_id'] = event_id  # Store the event ID in the session
         return render_template("/uploadHomework.html", event_id=event_id)
     else:
         event_id = request.form.get('event_id')
-        print("event_id:", event_id)
+        # print("event_id:", event_id)
         file = request.files.get('file')
 
         # Upload the file to S3 in the event_id folder
@@ -200,8 +201,23 @@ def uploadingHomework(user_id, credentials):
         except Exception as e:
             print(f"Failed to upload file: {e}")
             return render_template("/uploadHomework.html", message="Failed! Try again.")
+        
+        return render_template("/uploadHomework.html", event_id=event_id, message="File Uploaded Successfully!")
 
-        return render_template("/uploadHomework.html", message="File Uploaded Successfully!")
+
+@app.route("/dashboard", methods=["GET"])
+@user_id_is_required
+@get_user_credentials
+def dashboard(user_id, credentials):
+    event_id = session.get('event_id')
+    if not event_id:
+        return redirect("/menu")
+    if request.method == "GET":
+        # print("Dashboard: ", event_id)
+        s3_content = get_s3_content(event_id)
+        return render_template("/dashboard.html", event_id=event_id, s3_content=s3_content)
+
+
 
 
 if __name__ == "__main__":
