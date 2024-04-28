@@ -2,7 +2,7 @@ import datetime
 import requests
 
 from src.config import Config
-from datetime import timedelta
+from datetime import datetime, timedelta
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
