@@ -60,7 +60,7 @@ def get_s3_content(event_id):
         s3_content = []
         for item in response.get('Contents', []):
             key = item['Key']
-            if not key.endswith(('.jpg', '.jpeg', '.png', '.gif')):
+            if not key.endswith(('.jpg', '.jpeg', '.png', '.gif', '.jfif')):
                 continue  # Skip non-image files
             # Generate a pre-signed URL for each object 
             url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key': key}, ExpiresIn=3600)
