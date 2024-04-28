@@ -186,6 +186,9 @@ def get_homeworkSubmission(user_id, credentials):
 @user_id_is_required
 @get_user_credentials
 def uploadingHomework(user_id, credentials):
+    event_id = session.get('event_id')
+    if not event_id:
+        return redirect("/menu")
     if request.method == "GET":
         event_id = request.args.get('event_id')
         session['event_id'] = event_id  # Store the event ID in the session
