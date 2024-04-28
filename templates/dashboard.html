@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://fpsocial.com/wp-content/uploads/2016/11/Background-website-FP-Orignal.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        input, textarea {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .grid-item img {
+            max-width: 250px; /* Set the maximum width of the image */
+            max-height: 250px; /* Set the maximum height of the image */
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .grid-item img:hover {
+            transform: scale(1.1);
+        }
+        .like-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            outline: none;
+            margin-top: 5px;
+            color: #333;
+        }
+        .like-button:hover {
+            color: #ff69b4;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Homework Dashboard</h1>
+        <!-- <h2>Great Job Everyone!</h2> -->
+        <div class="grid-container">
+            {% if s3_content %}
+                {% for file in s3_content %}
+                    <div class="grid-item">
+                        <a href="{{ file['url'] }}" data-fancybox="images" data-caption="{{ file['name'] }}">
+                            <img src="{{ file['url'] }}" alt="{{ file['name'] }}">
+                        </a>
+                        <p>{{ file['name'].split('.')[0] }}</p>
+                        <button class="like-button" data-file="{{ file['name'] }}">❤️</button>
+                        <p id="likes-{{ file['name'] }}">{{ '1' if file['name'] in likedImages else '0' }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No files found for this event.</p>
+            {% endif %}
+        </div>
+        <div class="button-container">
+            <a href="/logout"><button id="logout-btn">Logout</button></a>
+            <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const likeButtons = document.querySelectorAll('.like-button');
+
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const fileName = this.getAttribute('data-file');
+                    let likedImages = JSON.parse(localStorage.getItem('likedImages')) || [];
+
+                    if (!likedImages.includes(fileName)) {
+                        likedImages.push(fileName);
+                        localStorage.setItem('likedImages', JSON.stringify(likedImages));
+                    } else {
+                        likedImages = likedImages.filter(item => item !== fileName);
+                        localStorage.setItem('likedImages', JSON.stringify(likedImages));
+                    }
+
+                    updateLikes(fileName, likedImages.includes(fileName));
+                });
+            });
+
+            function updateLikes(fileName, isLiked) {
+                const likeCount = document.getElementById(`likes-${fileName}`);
+                if (likeCount) {
+                    likeCount.textContent = isLiked ? parseInt(likeCount.textContent) + 1 : parseInt(likeCount.textContent) - 1;
+                }
+            }
+
+            // Initialize likes
+            const likedImages = JSON.parse(localStorage.getItem('likedImages')) || [];
+            likedImages.forEach(fileName => updateLikes(fileName, true));
+        });
+    </script>
+</body>
+</html>
