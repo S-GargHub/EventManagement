@@ -50,6 +50,10 @@
             cursor: pointer;
             font-size: 16px;
         }
+        .button-container {
+            text-align: center;
+            margin-top: 15px; /* Adjust as needed */
+        }
         button:hover {
             background-color: #45a049;
         }
@@ -58,7 +62,7 @@
 <body>
     <div class="container">
         <h1>Upload file</h1>
-        <form id="upload-homework" action="/uploadHomework" method="post" enctype="multipart/form-data">
+        <form id="upload-homework" action="/uploadHomework" method="POST" enctype="multipart/form-data">
             <label for="file">Select file:</label>
             <input type="file" id="file" name="file" accept="image/*" required>
             <input type="hidden" name="event_id" value="{{ event_id }}">
@@ -66,7 +70,29 @@
         </form>
         {% if message %}
         <div id="message">{{ message }}</div>
+        <!-- <div id="event_id">{{ event_id }}</div> -->
+        <div class="button-container">
+            <a href="/dashboard"><button id="dashboard-btn">Dashboard</button></a>
+            <a href="/logout"><button id="logout-btn">Logout</button></a>
+            <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
+        </div>
         {% endif %}
     </div>
+    <script>
+        document.getElementById('dashboard-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/dashboard';
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/logout';
+        });
+
+        document.getElementById('menu-btn').addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '/menu';
+        });
+    </script>
 </body>
 </html>

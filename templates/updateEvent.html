@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Calendar Event</title>
+    <title>Update Event</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -33,7 +33,7 @@
             margin-bottom: 10px;
             text-align: left;
         }
-        input, textarea {
+        input {
             padding: 8px 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -52,16 +52,19 @@
         }
         .button-container {
             text-align: center;
-            margin-top: 20px; /* Adjust as needed */
+            margin-top: 10px; /* Adjust as needed */
         }
         button:hover {
             background-color: #45a049;
         }
     </style>
+</head>
 <body>
     <div class="container">
-        <h1>Create Calendar Event</h1>
-        <form action="/createEvent" method="post">
+        <h1>Update Event</h1>
+        <form action="/updateEvent" method="POST" enctype="multipart/form-data">
+            <label for="event-id">Event ID:</label>
+            <input type="text" id="event-id" name="event-id" required><br><br>
             <label for="event-summary">Event Summary:</label>
             <input type="text" id="event-summary" name="event-summary" required>
             <label for="start-date">Start Date:</label>
@@ -74,12 +77,15 @@
                     <input type="email" name="participants[]" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                 </div>
             </div>
-            <button type="submit">Create Event</button>
-            <div class="button-container">
-                <a href="/logout"><button id="logout-btn">Logout</button></a>
-                <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
-            </div>
+            <button type="submit">Update Event</button>
         </form>
+        {% if message %}
+        <div id="message">{{ message }}</div>
+        {% endif %}
+        <div class="button-container">
+            <a href="/logout"><button id="logout-btn">Logout</button></a>
+            <a href="/menu"><button id="menu-btn">Back to Main Menu</button></a>
+        </div>
     </div>
     <script>
         document.getElementById('add-participant').addEventListener('click', () => {
@@ -90,16 +96,6 @@
                 <input type="email" name="participants[]" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
             `;
             participantList.appendChild(participant);
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = '/logout';
-        });
-
-        document.getElementById('menu-btn').addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = '/menu';
         });
     </script>
 </body>
