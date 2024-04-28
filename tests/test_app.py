@@ -44,18 +44,17 @@ class TestApp(unittest.TestCase):
         self.assertIn(b'Redirecting', response.data)  # Check for error message (optional)
         self.assertNotIn(b'welcome', response.data)
 
-    def test_logout(self, mock_get_user_info=None):  # Add mock_get_user_info as optional argument
+    def test_logout(self, mock_get_user_info=None):  
         with patch('src.googleauth.get_user_info', side_effect=Exception('Error')):
             with self.client.session_transaction() as session:
-                session['user_id'] = 'test_user_id'  # Set user_id (for coverage)
+                session['user_id'] = 'test_user_id'  # Set user_id
             response = self.client.get('/logout')
         self.assertEqual(response.status_code, 302)  # Assert redirect
         session['user_id'] = None
         self.assertIsNone(session.get('user_id'))  # Assert session cleared
 
-        # Optional test for get_user_info failure (if applicable)
         if mock_get_user_info:
-            mock_get_user_info.assert_called_once()  # Verify get_user_info was called (if patched)
+            mock_get_user_info.assert_called_once()
     
     def test_get_menu_logged_in(self):
         with self.client.session_transaction() as session:
