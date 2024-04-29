@@ -21,7 +21,7 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 app = Flask(__name__)
 app.config.from_object(Config)
 
-flow = InstalledAppFlow.from_client_secrets_file(Config.GOOGLE_CLIENT_JSON, Config.GOOGLE_AUTH_SCOPE)
+flow = InstalledAppFlow.from_client_config(json.loads(Config.GOOGLE_CLIENT_JSON), Config.GOOGLE_AUTH_SCOPE)
 flow.redirect_uri = Config.REDIRECT_URI
     
 @app.route("/")
