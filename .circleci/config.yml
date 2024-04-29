@@ -12,10 +12,6 @@ jobs:
             echo 'export PATH=~$PATH:~/.local/bin' >> $BASH_ENV && source $BASH_ENV
             pip install -r requirements.txt
       - run:
-          name: Run server
-          command: flask run
-          background: true
-      - run:
           name: Run unit tests
           command: |
             python -m unittest discover
