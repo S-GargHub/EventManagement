@@ -1,10 +1,10 @@
+import os
 import boto3
 
 # Insert event metadata into DynamoDB
 def put_event_metadata_dynamodb(event, summary, start_date, end_date, participants):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('Calendar_Event_Metadata')
-    print(participants)
+    table = dynamodb.Table(os.environ.get('dynamo_table'))
     table.put_item(
         Item={
             'summary': summary,
@@ -16,11 +16,10 @@ def put_event_metadata_dynamodb(event, summary, start_date, end_date, participan
     )
 
 
-
 # Delete the metadata from DynamoDB
 def delete_event_dynamodb(event_id):    
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('Calendar_Event_Metadata')
+    table = dynamodb.Table(os.environ.get('dynamo_table'))
     table.delete_item(
         Key={
             'id': event_id
@@ -31,7 +30,7 @@ def delete_event_dynamodb(event_id):
 # Check if an event folder exist in S3 bucket
 def find_event_s3(event_id):
     s3 = boto3.client('s3')
-    s3_bucket_name = 'calender-app-bucket'
+    s3_bucket_name = os.environ.get('s3_bucket')
 
     response = s3.list_objects_v2(Bucket=s3_bucket_name, Prefix=event_id+'/')
     
@@ -43,7 +42,7 @@ def find_event_s3(event_id):
 # Upload file to S3 folder
 def upload_file_S3(file, event_id):
     s3 = boto3.client('s3')
-    s3_bucket_name = 'calender-app-bucket'
+    s3_bucket_name = os.environ.get('s3_bucket')
 
     try:
         s3.upload_fileobj(file, s3_bucket_name , f'{event_id}/{file.filename}')
@@ -54,7 +53,7 @@ def upload_file_S3(file, event_id):
 # gell all the image file from S3 folder to dashboard
 def get_s3_content(event_id):
     s3 = boto3.client('s3')
-    bucket_name = 'calender-app-bucket'
+    bucket_name = os.environ.get('s3_bucket')
     prefix = f'{event_id}/' 
 
     try:

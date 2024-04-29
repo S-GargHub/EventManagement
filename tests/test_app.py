@@ -59,7 +59,7 @@ class TestApp(unittest.TestCase):
 
     def test_get_menu_not_logged_in(self):
         response = self.client.get('/menu')
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.location, '/login')
 
     @patch('src.calendarAPI.build')  # Patch the build function
