@@ -126,7 +126,6 @@ def create_calendar_event(user_id, credentials):
     start_date = datetime.fromisoformat(request.form['start-date'])
     end_date = datetime.fromisoformat(request.form['end-date'])
     participants = request.form.getlist('participants[]')  # Get the list of participants
-    # print(participants)
     try:
         event = create_event(credentials, summary, start_date, end_date, participants)
         
@@ -161,8 +160,6 @@ def delete_calendar_event(user_id, credentials):
             return jsonify({'error': (error.message)}), 500
             return redirect("/")
 
-
-
 @app.route("/homeworkSubmission", methods=["GET", "POST"])
 @user_id_is_required
 @get_user_credentials
@@ -190,7 +187,6 @@ def uploadingHomework(user_id, credentials):
         return render_template("/uploadHomework.html", event_id=event_id)
     else:
         event_id = request.form.get('event_id')
-        # print("event_id:", event_id)
         file = request.files.get('file')
 
         # Upload the file to S3 in the event_id folder
