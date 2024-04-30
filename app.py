@@ -239,4 +239,4 @@ def updating_event(user_id, credentials):
 
 if __name__ == "__main__":
     # Run the Flask application with host='0.0.0.0' to listen on all network interfaces
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', ssl_context='adhoc')
