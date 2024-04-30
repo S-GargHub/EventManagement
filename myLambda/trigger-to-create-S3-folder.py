@@ -3,9 +3,6 @@ import boto3, logging
 import os
 
 def lambda_handler(event, context):
-    
-    # print(event)
-
     bucket_name = os.environ['s3_bucket']
     
     # Extract the eventID from the event

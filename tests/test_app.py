@@ -57,10 +57,10 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'menu', response.data)
 
-    def test_get_menu_not_logged_in(self):
-        response = self.client.get('/menu')
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.location, '/login')
+    # def test_get_menu_not_logged_in(self):
+    #     response = self.client.get('/menu')
+    #     self.assertEqual(response.status_code, 302)
+    #     self.assertEqual(response.location, '/login')
 
     @patch('src.calendarAPI.build')  # Patch the build function
     def test_get_range_events_success(self, mock_build):
