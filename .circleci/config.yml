@@ -1,0 +1,65 @@
+version: 2.1
+jobs:
+
+  tests:
+    docker:
+      - image: circleci/python:3
+    steps:
+      - checkout
+      - run:
+          name: Install Python dependencies
+          command: |
+            echo 'export PATH=~$PATH:~/.local/bin' >> $BASH_ENV && source $BASH_ENV
+            pip install -r requirements.txt
+      - run:
+          name: Run unit tests
+          command: |
+            python -m unittest discover
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
+
+  build:
+    docker:
+      - image: circleci/python:3
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build and push Docker image
+          command: |
+            docker build -t event-management-app:latest .
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUBUSER" --password-stdin
+            docker image tag event-management-app:latest "$DOCKERHUBUSER"/event-management-app:$(git rev-parse --short HEAD)
+            docker push sgarg95/event-management-app:$(git rev-parse --short HEAD)
+
+  deploy:
+    docker:
+      - image: circleci/python:3
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:qZt4fTD2pxAV3i3t4oJkOw+GMGHAGe5RJrsZw1t9BIU"
+      - run: 
+          name: Install Docker on EC2
+          command: |
+            ssh -i "~/.ssh/id_rsa_SHA256qZt4fTD2pxAV3i3t4oJkOw+GMGHAGe5RJrsZw1t9BIU" -o StrictHostKeyChecking=no ec2-user@ec2-35-94-49-11.us-west-2.compute.amazonaws.com \<<ENDSSH
+            sudo yum install docker
+            sudo service start docker
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUBUSER" --password-stdin
+            sudo docker pull sgarg95/event-management-app:$(git rev-parse --short HEAD)
+            sudo docker run -p 5000:5000 sgarg95/event-management-app:$(git rev-parse --short HEAD)
+            ENDSSH
+          background: true
+workflows:
+  build_test:
+    jobs:
+      - tests
+      - build:
+          requires:
+            - tests
+      - deploy:
+          requires:
+            - build
