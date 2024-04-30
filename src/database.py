@@ -12,6 +12,10 @@ user_schema = {
     'credentials_data': dict
 }
 
+print(Config.MONGO_URL)
+print(Config.MONGO_DB)
+print(Config.MONGO_COLLECTION)
+
 # Define the mongo client and db details
 client = MongoClient(Config.MONGO_URL)
 db = client[Config.MONGO_DB]
