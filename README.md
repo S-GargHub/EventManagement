@@ -32,6 +32,6 @@ A web app to manage your calendar events. The Event Management Portal is a web a
 - `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key
 - `AWS_REGION`: The AWS region where your S3 bucket is located
 - `S3_BUCKET_NAME`: Create an S3 bucket, set appropriate IAM roles, and add the bucket name here.
-- `DYNAMO_METADATA_TABLE`: Create a DynamoDB table, set appropriate IAM roles, and add the bucket name here.
+- `DYNAMO_METADATA_TABLE`: Create a DynamoDB table, set appropriate IAM roles, and add the table name here.
 - `GOOGLE_CLIENT_ID`: Your Google OAuth client ID
 - `GOOGLE_CLIENT_SECRET`: Your Google OAuth client secret
