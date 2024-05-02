@@ -5,10 +5,10 @@ A web app to manage your calendar events. The Event Management Portal is a web a
 - Python Flask for the backend
 - HTML, CSS, and JavaScript for the frontend
 - AWS S3 for storing images
-- AWS DynamoDB for storing event data
+- AWS DynamoDB for storing event metadata
 - AWS SNS for sending event Notifications
-- Google OAuth for user authentication
-- FancyBox for image pop-up view effect
+- Google OAuth for user authentication and MongoDB for storing user credentails
+- FancyBox for image pop-up and view effects
 
 ## AWS Services Used
 - Amazon S3
@@ -17,15 +17,14 @@ A web app to manage your calendar events. The Event Management Portal is a web a
 - Amazon DynamoDB
 - IAM Roles
 - Lambda Functions
-- AWS Amplify
-- AWS Cognito
 
 ## Installation
 1. Clone the repository: `git clone https://github.com/CharulRathore/EventManagement.git`
 2. Install dependencies: `pip install -r requirements.txt`
-3. Set up environment variables (see below)
-4. Create the Lambda functions using scripts from the 'myLambda' folder and set up triggers.
-5. Run the application: `flask run`
+3. Set up environment variables (see below).
+4. Set up your google OAuth and calendar access using this documentation [link](https://developers.google.com/calendar/api/quickstart/python).
+5. Create the Lambda functions using scripts from the 'myLambda' folder and set up triggers, create the S3 bukcet and DynamoDB table.
+6. Run the application: `flask run`
 
 ## Environment Variables
 - `AWS_ACCESS_KEY_ID`: Your AWS access key ID
